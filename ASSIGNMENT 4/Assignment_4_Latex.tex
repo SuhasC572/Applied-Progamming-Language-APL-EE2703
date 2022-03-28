@@ -1,0 +1,247 @@
+
+\documentclass[11pt, a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{url}
+
+\title{Assignment 4: Fourier Approximations} % Title
+
+\author{SUHAS C [EE20B132]} % Author name
+
+\date{\today} % Date for the report
+\begin{document}	
+		
+\maketitle % Insert the title, author and date
+\section*{Abstract}
+In this assignment we aim to :\newline
+A Fourier series is an expansion of a periodic function f(x) in terms of an infinite sum of sines and cosines.
+Fourier series make use of the orthogonality relationships of the sine and cosine functions. The computation
+and study of Fourier series is known as harmonic analysis and is extremely useful as a way to break up an
+arbitrary periodic function into a set of simple terms that can be plugged in, solved individually, and then
+recombined to obtain the solution to the original problem or an approximation to it to whatever accuracy is
+desired or practical.
+
+
+\section{The functions $e^{x}$ and $cos(cos(x))$}
+The following python snippet is used to declare the functions $e^{x}$ and $cos(cos(x))$. The x values are also declared from -2$\pi$ to 4$\pi$.
+
+\begin{verbatim}
+#Defining the Functions exponential and cos(cos(x))
+def f(x):
+    return np.exp(x)
+def g(x):
+    return np.cos(np.cos(x))
+
+
+x = np.linspace(-2*pi,4*pi,100)  #Dividing the 0 to 2*pi into 100 equal intervals
+\end{verbatim}
+
+The following code is used to plot the graphs of $e^{x}$ and $cos(cos(x))$.
+\begin{verbatim}
+#Plot of g(x) vs x 
+figure(1)
+grid(True)
+plot(x,g(x))
+title('Plot of g(x)')
+xlabel('x')
+ylabel('g(x)')
+show()
+
+#Plot of f(x) vs x in semilog scale
+figure(2)
+grid(True)
+semilogy(x,f(x))
+title('Plot of f(x) in semilog scale')
+xlabel('x')
+ylabel('f(x)')
+show()
+
+#plot of f(x) vs x
+figure(3)
+grid(True)
+plot(x,f(x))
+title('Plot of f(x)')
+xlabel('x')
+ylabel('f(x)')
+show()
+\end{verbatim}
+The plots of $e^{x}$ and $cos(cos(x))$ are as shown below:
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure1.png}   
+   	\caption{Data plot}
+   	\label{fig:sample}
+   \end{figure} 
+   
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure2.png}   
+   	\caption{Data plot}
+   	\label{fig:sample}
+   \end{figure} 
+
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure3.png}   
+   	\caption{Data plot}
+   	\label{fig:sample}
+   \end{figure} 
+   
+ 
+
+\section{The Fourier coefficients}
+The fourier series used to approximate a function is as follows:
+\begin{equation}
+    a_{0} + \sum\limits_{n=1}^{\infty} {{a_{n}\cos(nx_{i})+b_{n}\sin(nx_{i})}} \approx f(x_{i}) 
+    \end{equation}
+    	The equations used here to find the Fourier coefficients are as follows:
+    \begin{equation}
+         a_{0} = \frac{1}{2\pi}\int\limits_{0}^{2\pi} f(x)dx 
+    \end{equation}
+    \begin{equation}
+         a_{n} = \frac{1}{\pi}\int\limits_{0}^{2\pi} f(x)\cos(nx)dx 
+    \end{equation}
+    \begin{equation}
+         b_{n} = \frac{1}{\pi}\int\limits_{0}^{2\pi} f(x)\sin(nx)dx 
+    \end{equation}
+
+Hence, in python we will use the \textit{quad()} function to perform an intergration function. First we'll have to create functions which contains the variable $k$ also. The python code snippet for declaring the functions with an additional variable $k$ is as follows:
+\begin{verbatim}
+def m(x,k):        
+    return f(x)*np.cos(k*x)
+def n(x,k):
+    return f(x)*np.sin(k*x)
+def o(x,k):
+    return g(x)*np.cos(k*x)
+def p(x,k):
+    return g(x)*np.sin(k*x)	
+
+\end{verbatim}
+The python code snippet for finding the fourier coefficients is as follows:
+\begin{verbatim}
+#Defining the empty matrixes for the fourier coefficients 
+a_coeff_of_f = np.zeros(26,)
+b_coeff_of_f = np.zeros(25,)
+a_coeff_of_g = np.zeros(26,)
+b_coeff_of_g = np.zeros(25,)
+
+#Integrating using the Quad integrate method
+for i in range(26):
+    a_coeff_of_f[i],_ = sp.integrate.quad(m,0,2*pi,(i,))
+    a_coeff_of_g[i],_ = sp.integrate.quad(o,0,2*pi,(i,))
+for i in range(25):
+    b_coeff_of_f[i],_ = sp.integrate.quad(n,0,2*pi,(i+1,))
+    b_coeff_of_g[i],_ = sp.integrate.quad(p,0,2*pi,(i+1,)) 
+
+#Dividing the Coefficients by pi and the first coefficient by 2*pi
+a_coeff_of_f /= pi
+b_coeff_of_f /= pi
+a_coeff_of_g /= pi
+b_coeff_of_g /= pi
+a_coeff_of_f[0] /= 2
+a_coeff_of_g[0] /= 2
+\end{verbatim}
+   
+\section{The plots of Fourier coefficients}
+The semilog and log plots of the Fourier coefficients of  $e^{x}$ and $cos(cos(x))$ is as shown:
+	\begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure4.png}   
+   	\caption{Semilog plot of the fourier coefficients of $e^{x}$}
+   	\label{fig:sample}
+   \end{figure} 
+
+	\begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure5.png}   
+   	\caption{Log plot of the fourier coefficients of $e^{x}$}
+   	\label{fig:sample}
+   \end{figure} 
+   
+	\begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure6.png}   
+   	\caption{Semilog plot of the fourier coefficients of $cos(cos(x))$}
+   	\label{fig:sample}
+   \end{figure} 
+
+	\begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure7.png}   
+   	\caption{Log plot of the fourier coefficients of $cos(cos(x))$}
+   	\label{fig:sample}
+   \end{figure} 
+
+a. As it is evident from the plots, $b_n$ is nearly zero for $cos(cos(x))$. This is because $cos(cos(x))$ is an even function, hence in the fourier series expansion, all the $b_n$ terms should be zero for the series to be an even function.\\\\
+b. The magnitude of the coefficients would represent how much of certain frequencies happen to be in the output. $cos(cos(t))$ does not have very many frequencies of harmonics, so it dies out quickly. However, since the periodic extension of $e^{t}$ is discontinuous. To represent this discontinuity as a sum of continuous sinusoids, we would need high frequency components, hence coefficients do not decay as quickly.\\\\
+c. The loglog plot is linear for $e^{t}$ since Fourier coefficients of $e^{t}$ decay with $1/n$ or $1/n^{2}$. The semilog plot seems linear in the $cos(cos(t))$ case as its fourier coefficients decay exponentially with n.
+
+\section{The Least Squares Approach}
+For the least squares approach, we'll have to create matrices and then use \textit{lstsq()} function inorder to get the most approximate values of the fourier coefficients.\\
+The python code snippet to create the matrices and to get the least squared value of the coefficients is as follows:
+\begin{verbatim}	
+X = np.linspace(0,2*pi,401)
+X = X[:-1]
+b1 = f(X)
+b2 = g(X)
+A = np.zeros((400,51))
+A[:,0] = 1
+for k in range(1,26):
+    A[:,2*k-1] = np.cos(k*X)
+    A[:,2*k] = np.sin(k*X)
+
+c1 = np.linalg.lstsq(A,b1,rcond = -1)[0]
+c2 = np.linalg.lstsq(A,b2,rcond = -1)[0]
+\end{verbatim}
+The plots in order to show the differences between the actual and predicted values of the fourier coefficients are shown below
+
+
+   
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure8.png}   
+   	\caption{DATA PLOT}
+   	\label{fig:sample}
+   \end{figure} 
+   
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure9.png}   
+   	\caption{DATA PLOT}
+   	\label{fig:sample}
+   \end{figure} 
+     
+\section{Deviation from Actual Values} 
+The least squares approach is still an approximate method and will definitely have a slight deviation from the actual value.\\
+
+There is very good agreement in values in the case of $cos(cos(x))$ but a significant amount of difference in the case of $e^{t}$. The reason for this is that the periodic extension of the exponential function is discontinuous, and hence would require a lot more samples to accurately determine its Fourier coefficients. If we increased the number of samples to $10^{6}$, the maximum deviation would reduce, but not vanish.
+The effect of this lack of samples is felt more near the discontinuity of the signal.
+
+
+\section{Estimated Functions}
+Using the predicted values of the fourier coefficients, we can calculate the functional values for both $e^{x}$ and $cos(cos(x))$. \\
+The plots showing both the actual and predicted functional values are as shown below:
+
+ 	\begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure10.png}   
+   	\caption{Actual and predicted values for $e^{x}$}
+   	\label{fig:sample}
+   \end{figure} 
+   
+   \begin{figure}[!tbh]
+   	\centering
+   	\includegraphics[scale=0.6]{Figure11.png}   
+   	\caption{Actual and predicted values for $cos(cos(x))$}
+   	\label{fig:sample}
+   \end{figure} 
+  
+\section*{Conclusions}
+\begin{itemize}
+\item We saw two different ways to calculate the Fourier series of a periodic signal.
+\item We saw how least squares fitting can be used to simplify the process of calculating the Fourier Series.
+\item We observed Gibbs phenomenon at the discontinuity in the Fourier approximation of $e^{t}$.
+\end{itemize}
+
+\end{document}
