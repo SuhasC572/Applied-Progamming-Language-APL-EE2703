@@ -17,7 +17,7 @@ To Run the Latex Files follow the Following Instructions
 
 
 Contact Details -
-  LinkedIn - https://www.linkedin.com/in/suhas-c-prabhu/
-  Instagram - https://www.instagram.com/_c_suhas_572_/
+  - LinkedIn - https://www.linkedin.com/in/suhas-c-prabhu/
+  - Instagram - https://www.instagram.com/_c_suhas_572_/
   
 
