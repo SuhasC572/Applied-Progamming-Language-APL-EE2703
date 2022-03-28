@@ -13,3 +13,11 @@ To Run the Latex Files follow the Following Instructions
  - There will be Error messages in the Editor as the Figures are not uploaded. To get the error resolved , Upload the Figure Images which are in the respective Assignment Github Repository.
  - The Error will be Resolved and you can have a clear look in the Latex Code.
 
+
+
+
+Contact Details -
+  LinkedIn - https://www.linkedin.com/in/suhas-c-prabhu/
+  Instagram - https://www.instagram.com/_c_suhas_572_/
+  
+
